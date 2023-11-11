@@ -7,11 +7,11 @@ import { cn } from '@/lib/utils'
 import { useContext, useEffect } from 'react'
 import { GlobalAppState } from '@/context/GlobalAppState'
 import { GlobalAppStateType } from '@/Provider/GlobalAppStateProvider'
+import { subscriptionPlan, subscriptionStatus } from '@/types/payment'
 
 function Purchase ({ id }: { id: string }) {
-  const { paymentPageFetching, setPaymentPageFetching } = useContext(
-    GlobalAppState
-  ) as GlobalAppStateType
+  const { paymentPageFetching, setPaymentPageFetching, subscriptionStatus } =
+    useContext(GlobalAppState) as GlobalAppStateType
   const { handleSubscription } = useSubscription()
 
   useEffect(() => {
@@ -32,7 +32,10 @@ function Purchase ({ id }: { id: string }) {
             : 'hidden'
         )}
       />{' '}
-      Purchase
+      {id === subscriptionStatus.plan_id &&
+      subscriptionStatus.status === 'active'
+        ? 'Manage Subscription'
+        : 'Purchase'}
     </Button>
   )
 }
